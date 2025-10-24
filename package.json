@@ -1,0 +1,39 @@
+{
+  "name": "@andronics/claude-plugin-css-pro",
+  "version": "1.0.0",
+  "description": "Comprehensive CSS development toolkit with specialist agents, interactive skills, and powerful commands for modern CSS development",
+  "type": "module",
+  "author": {
+    "name": "Andronics Team"
+  },
+  "keywords": [
+    "css",
+    "sass",
+    "scss",
+    "less",
+    "postcss",
+    "tailwind",
+    "styled-components",
+    "css-modules",
+    "flexbox",
+    "grid",
+    "responsive",
+    "design-system",
+    "design-tokens",
+    "accessibility",
+    "performance",
+    "optimization",
+    "layout",
+    "animation",
+    "theming"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/andronics/claude-plugin-css-pro#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andronics/claude-plugin-css-pro.git"
+  },
+  "bugs": {
+    "url": "https://github.com/andronics/claude-plugin-css-pro/issues"
+  }
+}

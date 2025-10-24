@@ -1,0 +1,188 @@
+{
+  "$schema": "https://docs.claude.com/schemas/hooks.json",
+  "PreToolUse": [
+    {
+      "matcher": {
+        "tools": ["Write", "Edit"],
+        "arguments": {
+          "file_path": "**/*.css"
+        }
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash -c 'INPUT=$(cat); FILE=$(echo \"$INPUT\" | jq -r .file_path); if command -v stylelint &> /dev/null; then CONTENT=$(echo \"$INPUT\" | jq -r .content // .new_string); echo \"$CONTENT\" | stylelint --stdin --stdin-filename \"$FILE\" 2>&1 && echo \"$INPUT\"; else echo \"$INPUT\"; fi'"
+        }
+      ]
+    },
+    {
+      "matcher": {
+        "tools": ["Write", "Edit"],
+        "arguments": {
+          "file_path": "**/*.scss"
+        }
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash -c 'INPUT=$(cat); FILE=$(echo \"$INPUT\" | jq -r .file_path); if command -v stylelint &> /dev/null; then CONTENT=$(echo \"$INPUT\" | jq -r .content // .new_string); echo \"$CONTENT\" | stylelint --stdin --stdin-filename \"$FILE\" 2>&1 && echo \"$INPUT\"; else echo \"$INPUT\"; fi'"
+        }
+      ]
+    },
+    {
+      "matcher": {
+        "tools": ["Write", "Edit"],
+        "arguments": {
+          "file_path": "**/*.sass"
+        }
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash -c 'INPUT=$(cat); FILE=$(echo \"$INPUT\" | jq -r .file_path); if command -v stylelint &> /dev/null; then CONTENT=$(echo \"$INPUT\" | jq -r .content // .new_string); echo \"$CONTENT\" | stylelint --stdin --stdin-filename \"$FILE\" 2>&1 && echo \"$INPUT\"; else echo \"$INPUT\"; fi'"
+        }
+      ]
+    },
+    {
+      "matcher": {
+        "tools": ["Write", "Edit"],
+        "arguments": {
+          "file_path": "**/*.less"
+        }
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash -c 'INPUT=$(cat); FILE=$(echo \"$INPUT\" | jq -r .file_path); if command -v stylelint &> /dev/null; then CONTENT=$(echo \"$INPUT\" | jq -r .content // .new_string); echo \"$CONTENT\" | stylelint --stdin --stdin-filename \"$FILE\" 2>&1 && echo \"$INPUT\"; else echo \"$INPUT\"; fi'"
+        }
+      ]
+    },
+    {
+      "matcher": {
+        "tools": ["Bash"],
+        "arguments": {
+          "command": "npm run build*"
+        }
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash -c 'INPUT=$(cat); if [ -f \"package.json\" ] && command -v node &> /dev/null; then echo \"[CSS Analyze] Checking CSS bundle size before build...\"; find . -name \"*.css\" -type f -not -path \"*/node_modules/*\" -exec wc -c {} + | awk \"{sum+=\\$1} END {printf \\\"Total CSS: %.2f KB\\\\n\\\", sum/1024}\"; fi; echo \"$INPUT\"'"
+        }
+      ]
+    },
+    {
+      "matcher": {
+        "tools": ["Bash"],
+        "arguments": {
+          "command": "*webpack*"
+        }
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash -c 'INPUT=$(cat); if [ -f \"webpack.config.js\" ] || [ -f \"webpack.config.ts\" ]; then echo \"[CSS Analyze] Analyzing CSS bundle before webpack build...\"; find . -name \"*.css\" -type f -not -path \"*/node_modules/*\" -not -path \"*/dist/*\" -not -path \"*/build/*\" | head -20; fi; echo \"$INPUT\"'"
+        }
+      ]
+    },
+    {
+      "matcher": {
+        "tools": ["Bash"],
+        "arguments": {
+          "command": "*vite build*"
+        }
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash -c 'INPUT=$(cat); if [ -f \"vite.config.js\" ] || [ -f \"vite.config.ts\" ]; then echo \"[CSS Analyze] Analyzing CSS bundle before Vite build...\"; find . -name \"*.css\" -type f -not -path \"*/node_modules/*\" -not -path \"*/dist/*\" | head -20; fi; echo \"$INPUT\"'"
+        }
+      ]
+    }
+  ],
+  "PostToolUse": [
+    {
+      "matcher": {
+        "tools": ["Write", "Edit"],
+        "arguments": {
+          "file_path": "**/*.css"
+        }
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash -c 'INPUT=$(cat); FILE=$(echo \"$INPUT\" | jq -r .file_path); if command -v prettier &> /dev/null && [ -f \"$FILE\" ]; then prettier --write \"$FILE\" 2>&1; echo \"[CSS Format] Formatted $FILE with Prettier\"; fi; echo \"$INPUT\"'"
+        }
+      ]
+    },
+    {
+      "matcher": {
+        "tools": ["Write", "Edit"],
+        "arguments": {
+          "file_path": "**/*.scss"
+        }
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash -c 'INPUT=$(cat); FILE=$(echo \"$INPUT\" | jq -r .file_path); if command -v prettier &> /dev/null && [ -f \"$FILE\" ]; then prettier --write \"$FILE\" 2>&1; echo \"[CSS Format] Formatted $FILE with Prettier\"; fi; echo \"$INPUT\"'"
+        }
+      ]
+    },
+    {
+      "matcher": {
+        "tools": ["Write", "Edit"],
+        "arguments": {
+          "file_path": "**/*.sass"
+        }
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash -c 'INPUT=$(cat); FILE=$(echo \"$INPUT\" | jq -r .file_path); if command -v prettier &> /dev/null && [ -f \"$FILE\" ]; then prettier --write \"$FILE\" 2>&1; echo \"[CSS Format] Formatted $FILE with Prettier\"; fi; echo \"$INPUT\"'"
+        }
+      ]
+    },
+    {
+      "matcher": {
+        "tools": ["Write", "Edit"],
+        "arguments": {
+          "file_path": "**/*.less"
+        }
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash -c 'INPUT=$(cat); FILE=$(echo \"$INPUT\" | jq -r .file_path); if command -v prettier &> /dev/null && [ -f \"$FILE\" ]; then prettier --write \"$FILE\" 2>&1; echo \"[CSS Format] Formatted $FILE with Prettier\"; fi; echo \"$INPUT\"'"
+        }
+      ]
+    },
+    {
+      "matcher": {
+        "tools": ["Bash"],
+        "arguments": {
+          "command": "npm run build*"
+        }
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash -c 'INPUT=$(cat); echo \"[CSS Analyze] Build complete. Analyzing CSS output...\"; find . -name \"*.css\" -type f \\( -path \"*/dist/*\" -o -path \"*/build/*\" \\) -exec wc -c {} + 2>/dev/null | awk \"{sum+=\\$1} END {if(sum>0) printf \\\"Built CSS: %.2f KB\\\\n\\\", sum/1024}\"; echo \"$INPUT\"'"
+        }
+      ]
+    }
+  ],
+  "UserPromptSubmit": [
+    {
+      "matcher": {
+        "pattern": ".*(css|style|layout|flexbox|grid|animation|responsive|breakpoint|media query).*"
+      },
+      "hooks": [
+        {
+          "type": "command",
+          "command": "bash -c 'INPUT=$(cat); PROMPT=$(echo \"$INPUT\" | jq -r .prompt); if echo \"$PROMPT\" | grep -iE \"(fix|debug|broken|not working|issue|problem)\"; then echo \"[CSS Pro Tip] The css-debugger agent specializes in solving CSS issues. Consider using specific slash commands like /css-debug for systematic debugging.\"; fi; echo \"$INPUT\"'"
+        }
+      ]
+    }
+  ]
+}
